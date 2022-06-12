@@ -1,0 +1,11 @@
+.card__like-frame {
+    justify-content: space-between;
+    max-width: 21px;
+    max-height: 35px;
+    padding-right: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: middle;
+    height: 100%;
+}

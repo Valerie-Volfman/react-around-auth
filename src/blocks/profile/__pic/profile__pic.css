@@ -1,0 +1,16 @@
+.profile__pic {
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  background-image: url("../../../images/Profile.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin: 0;
+  z-index: 0;
+  cursor: pointer;
+}
+
+.profile__pic:hover {
+  opacity: 0.2;
+}

@@ -1,0 +1,12 @@
+.profile__pic-icon {
+  position: absolute;
+  background-color: transparent;
+  cursor: pointer;
+  align-self: center;
+  overflow: hidden;
+}
+
+.profile__pic-icone:hover .profile__pic:hover {
+  opacity: 1;
+  z-index: 2;
+}

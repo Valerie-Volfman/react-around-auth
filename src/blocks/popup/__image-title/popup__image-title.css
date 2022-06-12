@@ -1,0 +1,15 @@
+.popup__image-title {
+  position: absolute;
+  background: rgba(0, 0, 0, 0);
+  width: 291px;
+  margin-bottom: -22px;
+  margin-right: 0;
+  margin-top: auto;
+  left: 0;
+  bottom: 0;
+  text-align: left;
+  font-size: 12px;
+  line-height: 14.52px;
+  font-weight: 400;
+  color: #fff;
+}

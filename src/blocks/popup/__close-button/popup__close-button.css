@@ -1,0 +1,31 @@
+.popup__close-button {
+  transform: rotate(-45deg);
+  border: none;
+  background: rgba(0, 0, 0, 0);
+  position: absolute;
+  align-self: flex-end;
+  justify-self: flex-end;
+  margin-top: -40px;
+  margin-right: -40px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  right: 0;
+  top: 0;
+  background-image: url(../../../images/Vector-Button.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.popup__close-button:hover {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 550px) {
+  .popup__close-button {
+    margin-right: 0;
+    width: 26px;
+    height: 26px;
+  }
+}
