@@ -1,4 +1,5 @@
 import React from "react";
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -18,6 +19,7 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [cards, setCards] = React.useState([]);
   const [currentUser, setCurrentUser] = React.useState({});
+  const [loggedIn, setLoggedIn] = React.useState(false)
 
   React.useEffect(() => {
     api
@@ -144,7 +146,12 @@ function App() {
     <div className="page__wrapper">
       <CurrentUserContext.Provider value={currentUser}>
         <Header />
-        <Main
+        <Switch>
+          <Route exaxt path="/">
+            {loggedIn ? <Redirect to="/" /> : <Redirect to="/signup" />}
+          </Route>
+          <Route exact path="/">
+          <Main
           onEditProfileClick={handleEditProfileClick}
           onAddPlaceClick={handleAddPlaceClick}
           onEditAvatarClick={handleEditAvatarClick}
@@ -153,6 +160,14 @@ function App() {
           onDeleteClick={handleCardDelete}
           cards={cards}
         />
+          </Route>
+          <Route path="/signup">
+            {/* <Register /> */}
+          </Route>
+          <Route path="/signin">
+            {/* <Login /> */}
+          </Route>
+        </Switch>
         <Footer />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
         <EditProfilePopup
