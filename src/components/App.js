@@ -9,6 +9,9 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import Register from "./Register";
+import Login from "./Login";
+import InfoTooltip from "./InfoTooltip";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -145,12 +148,12 @@ function App() {
   return (
     <div className="page__wrapper">
       <CurrentUserContext.Provider value={currentUser}>
-        <Header />
         <Switch>
-          <Route exaxt path="/">
+          <Route exact path="/">
             {loggedIn ? <Redirect to="/" /> : <Redirect to="/signup" />}
           </Route>
           <Route exact path="/">
+          <Header />
           <Main
           onEditProfileClick={handleEditProfileClick}
           onAddPlaceClick={handleAddPlaceClick}
@@ -162,14 +165,13 @@ function App() {
         />
           </Route>
           <Route path="/signup">
-            {/* <Register /> */}
+            <Register />
           </Route>
           <Route path="/signin">
-            {/* <Login /> */}
+            <Login />
           </Route>
-        </Switch>
-        <Footer />
-        <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+          <Footer />
+          <ImagePopup card={selectedCard} onClose={closeAllPopups} />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
@@ -207,6 +209,7 @@ function App() {
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
         />
+        </Switch>
       </CurrentUserContext.Provider>
     </div>
   );

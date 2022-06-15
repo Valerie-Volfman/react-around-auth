@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "../images/Logo.svg";
 
-function Register() {
+function Login() {
 
     const [inputEmail, setInputEmail] = React.useState('')
     const [inputPassword, setPassword] = React.useState('')
@@ -15,16 +15,16 @@ function Register() {
                 </div>
             </header>
             <div className="welcome-page__content">
-                <h2 className="welcome-page__title">Sign up</h2>
+                <h2 className="welcome-page__title">Log In</h2>
                 <form className="welcome-page__form">
                     <input type="text" name="email" placeholder="Email" className="welcome-page__input welcome-page__input_type_email" value={inputEmail.value} />
                     <input type="password" name="password" placeholder="Password" className="welcome-page__input welcome-page__input_type_password" value={inputPassword.value} />
                 </form>
                 <button className="welcome-page__button">Sign up</button>
-                <a className="welcome-page__link">Already a member? Log in here!</a>
+                <a className="welcome-page__link">Not a member yet? Sign up here!</a>
             </div>
         </div>
     )
 }
 
-export default Register;
+export default Login;
