@@ -1,13 +1,11 @@
-import React, { useCallback } from "react";
-import { useHistory, Link } from "react-router-dom";
-import logo from "../images/Logo.svg";
+import React from "react";
 import { authorize } from "../utils/auth";
+import { Link } from "react-router-dom";
 
-function Login (props) {
+function Login(props) {
 
     const [inputEmail, setInputEmail] = React.useState('');
     const [inputPassword, setInputPassword] = React.useState('');
-    const history = useHistory()
 
     const resetForm = () => {
         setInputEmail('');
@@ -16,12 +14,13 @@ function Login (props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        props.handleLogin();
         authorize({ email: inputEmail, password: inputPassword })
-         .then((data) => {
-             localStorage.setItem('jwt', data.token);
-         })
-        .catch((err) => console.log(err));
+            .then((data) => {
+                props.handleLogin(inputEmail);
+                localStorage.setItem('jwt', data.token);
+                resetForm();
+            })
+            .catch((err) => console.log(err));
     }
 
     return (

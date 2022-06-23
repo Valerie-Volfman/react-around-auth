@@ -1,15 +1,16 @@
 .welcome-page__input {
-    padding-top: 30px;
-    padding-bottom: 13px;
-    font-size: 14px;
-    line-height: 17px;
-    font-weight: 400;
-    font-style: normal;
-    color: #CCCCCC;
-    text-decoration: #CCCCCC;
-    background-color: #000000;
-    border-bottom: 2px solid #CCCCCC;
-    border-top: none;
-    border-right: none;
-    border-left: none;
+  padding-top: 30px;
+  padding-bottom: 13px;
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 400;
+  font-style: normal;
+  color: #cccccc;
+  text-decoration: #cccccc;
+  background-color: #000000;
+  border-bottom: 2px solid #cccccc;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  outline: none;
 }

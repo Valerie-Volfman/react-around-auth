@@ -1,33 +1,18 @@
 import React from "react";
-import logo from "../images/Logo.svg";
-import * as auth from "../utils/auth";
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Register(props) {
 
     const [inputEmail, setInputEmail] = React.useState('')
     const [inputPassword, setPassword] = React.useState('')
-    const history = useHistory()
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        auth.register(inputEmail, inputPassword).then((res) => {
-            if(res) {
-   console.log(res);
-                history.push('/signin');
-            }
-        })
-        .catch((err) => console.log(err))
+        props.handleRegister(inputEmail, inputPassword);
     }
 
     return (
         <div className="welcome-page">
-            <header className="header">
-                <img className="logo" alt="Around the US logo" src={logo} />
-                <div className="menu">
-                <Link to="/signin" className="menu__button-white">Log in</Link>
-                </div>
-            </header>
             <div className="welcome-page__content">
                 <h2 className="welcome-page__title">Sign up</h2>
                 <form onSubmit={handleSubmit} className="welcome-page__form">
