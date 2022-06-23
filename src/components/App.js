@@ -12,7 +12,9 @@ import AddPlacePopup from "./AddPlacePopup";
 import Register from "./Register";
 import Login from "./Login";
 import InfoTooltip from "./InfoTooltip";
-
+import ProtectedRoute from "./ProtectedRoute";
+import { useHistory } from "react-router-dom";
+import { checkToken } from "../utils/auth";
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
     React.useState(false);
@@ -23,7 +25,15 @@ function App() {
   const [cards, setCards] = React.useState([]);
   const [currentUser, setCurrentUser] = React.useState({});
   const [loggedIn, setLoggedIn] = React.useState(false)
-
+const history = useHistory();
+React.useEffect(() => {
+   const token = localStorage.getItem('jwt');
+   checkToken(token)
+   .then(res => console.log(res))
+   .catch(err => console.log(err));
+   setLoggedIn(true);
+   //history.push('/');
+},[]);
   React.useEffect(() => {
     api
       .getUserData()
@@ -145,15 +155,18 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setSelectedCard(null);
   }
+
+  function handleLogin() {
+    setLoggedIn(true);
+    //userData();
+    history.push('/')
+  }
   return (
     <div className="page__wrapper">
       <CurrentUserContext.Provider value={currentUser}>
+      <Header />
         <Switch>
-          <Route exact path="/">
-            {loggedIn ? <Redirect to="/" /> : <Redirect to="/signup" />}
-          </Route>
-          <Route exact path="/">
-          <Header />
+          <ProtectedRoute exact path={"/"} loggedIn={loggedIn}>
           <Main
           onEditProfileClick={handleEditProfileClick}
           onAddPlaceClick={handleAddPlaceClick}
@@ -163,13 +176,14 @@ function App() {
           onDeleteClick={handleCardDelete}
           cards={cards}
         />
-          </Route>
+          </ProtectedRoute>
           <Route path="/signup">
             <Register />
           </Route>
           <Route path="/signin">
-            <Login />
+            <Login handleLogin={handleLogin} />
           </Route>
+          </Switch>
           <Footer />
           <ImagePopup card={selectedCard} onClose={closeAllPopups} />
         <EditProfilePopup
@@ -209,7 +223,6 @@ function App() {
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
         />
-        </Switch>
       </CurrentUserContext.Provider>
     </div>
   );

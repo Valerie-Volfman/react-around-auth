@@ -5,4 +5,15 @@
     padding-right: 0;
     padding-bottom: 80px;
     cursor: pointer;
+    text-decoration: none;
+}
+
+.welcome-page__link:hover {
+    color: #fff;
+    opacity: 0.6;
+}
+
+.welcome-page__link:visited {
+    color: #fff;
+    opacity: 0.6;
 }
