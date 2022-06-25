@@ -17,7 +17,8 @@ function Login(props) {
         authorize({ email: inputEmail, password: inputPassword })
             .then((data) => {
                 props.handleLogin(inputEmail);
-                localStorage.setItem('jwt', data.token);
+                localStorage.setItem('jwt', res => {
+                    return res.json(data.token)});
                 resetForm();
             })
             .catch((err) => console.log(err));

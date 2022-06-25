@@ -16,7 +16,7 @@ function InfoTooltip({ isOpen, onClose, isSucceed }) {
                     name="popupEditProfileCloseButton"
                     className="popup__close-button"
                 ></button>
-                <h2 className="popup__title">{isSucceed ? 'Good' : 'NotGood'}</h2>
+                <h2 className="popup__info-title">{isSucceed ? 'Success! You have now been registered.' : 'Oops, something went wrong! Please try again.'}</h2>
             </div>
         </section>
     )

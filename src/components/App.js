@@ -9,6 +9,7 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import RemovePopup from "./RemovePopup";
 import Register from "./Register";
 import Login from "./Login";
 import InfoTooltip from './InfoTooltip';
@@ -24,6 +25,7 @@ function App() {
     React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [isInfoPopupOpen, setIsInfoPopupOpen] = React.useState(false);
+  const [isRemovePopupOpen, setIsRemovePopupOpen] = React.useState(false);
   const [isSucceed, setIsSucceed] = React.useState(false);
   const [cards, setCards] = React.useState([]);
   const [currentUser, setCurrentUser] = React.useState({});
@@ -152,8 +154,9 @@ function App() {
       }
     };
 
-    document.addEventListener("keydown", closeByEscape);
-
+    if ("popup__is-opened" && true) {
+      document.addEventListener("keydown", closeByEscape);
+    }
     return () => document.removeEventListener("keydown", closeByEscape);
   }, []);
 
@@ -163,6 +166,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setSelectedCard(null);
     setIsInfoPopupOpen(false);
+    setIsRemovePopupOpen(false);
   }
 
   function handleLogin(data) {
@@ -203,6 +207,7 @@ function App() {
               onDeleteClick={handleCardDelete}
               cards={cards}
             />
+            <Footer />
           </ProtectedRoute>
           <Route path="/signup">
             <Register handleRegister={handleRegister} />
@@ -211,7 +216,6 @@ function App() {
             <Login handleLogin={handleLogin} />
           </Route>
         </Switch>
-        <Footer />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
         <InfoTooltip isOpen={isInfoPopupOpen} onClose={closeAllPopups} isSucceed={isSucceed} />
         <EditProfilePopup
@@ -224,28 +228,7 @@ function App() {
           onClose={closeAllPopups}
           onCreateCard={handleAppPlaceSubmit}
         />
-        <section className="popup popup_type_remove-popup">
-          <div className="popup__content">
-            <button
-              aria-label="close"
-              type="button"
-              name="popupAddCardCloseButton"
-              className="popup__close-button"
-            ></button>
-            <h2 className="popup__title">Are you sure?</h2>
-            <form id="delete-popup" name="removePopup" className="popup__form">
-              <button
-                form="delete-popup"
-                aria-label="save"
-                type="submit"
-                name="popupSaveButton"
-                className="popup__save-button"
-              >
-                Yes
-              </button>
-            </form>
-          </div>
-        </section>
+        <RemovePopup isOpen={isRemovePopupOpen} onClose={closeAllPopups} />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}

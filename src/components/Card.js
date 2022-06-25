@@ -29,8 +29,7 @@ function Card({ card, onCardClick, onLikeClick, onDeleteClick }) {
       <div
         style={{ backgroundImage: `url(${card.link})` }}
         onClick={handleClick}
-        className="card__picture"
-      ></div>
+        className="card__picture" />
       <button
         aria-label="delete"
         type="button"
