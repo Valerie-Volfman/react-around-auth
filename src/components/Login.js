@@ -16,10 +16,11 @@ function Login(props) {
         e.preventDefault();
         authorize({ email: inputEmail, password: inputPassword })
             .then((data) => {
+                if (data.token) {
                 props.handleLogin(inputEmail);
-                localStorage.setItem('jwt', res => {
-                    return res.json(data.token)});
+                localStorage.setItem('jwt', data.token);
                 resetForm();
+                }
             })
             .catch((err) => console.log(err));
     }

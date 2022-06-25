@@ -153,10 +153,7 @@ function App() {
         closeAllPopups();
       }
     };
-
-    if ("popup__is-opened" && true) {
-      document.addEventListener("keydown", closeByEscape);
-    }
+    document.addEventListener("keydown", closeByEscape);
     return () => document.removeEventListener("keydown", closeByEscape);
   }, []);
 
