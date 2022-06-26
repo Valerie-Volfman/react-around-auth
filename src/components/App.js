@@ -15,7 +15,7 @@ import Login from "./Login";
 import InfoTooltip from './InfoTooltip';
 import ProtectedRoute from "./ProtectedRoute";
 import { useHistory } from "react-router-dom";
-import { checkToken, register } from "../utils/auth";
+import { checkToken, register, authorize } from "../utils/auth";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -30,7 +30,6 @@ function App() {
   const [cards, setCards] = React.useState([]);
   const [currentUser, setCurrentUser] = React.useState({});
   const [loggedIn, setLoggedIn] = React.useState(false)
-  const [currentUserEmail, setCurrentUserEmail] = React.useState('');
 
   const history = useHistory();
   React.useEffect(() => {
@@ -39,7 +38,7 @@ function App() {
       checkToken(token)
         .then(res => {
           setLoggedIn(true);
-          setCurrentUserEmail(res.data.email);
+          setCurrentUser(res.data.email);
           history.push('/');
         })
         .catch(err => console.log(err));
@@ -153,9 +152,10 @@ function App() {
         closeAllPopups();
       }
     };
+    if (isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen || selectedCard || isInfoPopupOpen || isRemovePopupOpen)
     document.addEventListener("keydown", closeByEscape);
     return () => document.removeEventListener("keydown", closeByEscape);
-  }, []);
+  }, [isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, selectedCard, isInfoPopupOpen, isRemovePopupOpen]);
 
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
@@ -166,20 +166,36 @@ function App() {
     setIsRemovePopupOpen(false);
   }
 
-  function handleLogin(data) {
-    setLoggedIn(true);
-    setCurrentUserEmail(data);
-    history.push('/')
+  // function handleLogin(data) {
+  //   setLoggedIn(true);
+  //   setCurrentUser(data);
+  //   history.push('/')
+  // }
+
+  function handleLogin(inputEmail, inputPassword) {
+    authorize({ inputEmail, inputPassword }).then((res) => {
+      console.log(res)
+      if (res.status === 201) {
+        setIsSucceed(true);
+        localStorage.setItem('jwt', res.token);
+        setCurrentUser({email: inputEmail, password: inputPassword});
+        history.push('/')
+      } else {
+        setIsSucceed(false);
+      }
+    })
+    .catch((err) => console.log(err))
   }
   function handleLogOut() {
     setLoggedIn(false);
     localStorage.removeItem('jwt');
-    setCurrentUserEmail('');
+    setCurrentUser('');
   }
   function handleRegister(inputEmail, inputPassword) {
     register(inputEmail, inputPassword).then((res) => {
       if (res.status === 201) {
         setIsSucceed(true);
+        history.push('/signin');
       } else {
         setIsSucceed(false);
       }
@@ -192,7 +208,7 @@ function App() {
   return (
     <div className="page__wrapper">
       <CurrentUserContext.Provider value={currentUser}>
-        <Header currentUserEmail={currentUserEmail} handleLogOut={handleLogOut} loggedIn={loggedIn} />
+        <Header currentUser={currentUser.email} handleLogOut={handleLogOut} loggedIn={loggedIn} />
         <Switch>
           <ProtectedRoute exact path={"/"} loggedIn={loggedIn}>
             <Main

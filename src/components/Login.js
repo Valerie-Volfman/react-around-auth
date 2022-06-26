@@ -1,5 +1,4 @@
 import React from "react";
-import { authorize } from "../utils/auth";
 import { Link } from "react-router-dom";
 
 function Login(props) {
@@ -14,15 +13,8 @@ function Login(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        authorize({ email: inputEmail, password: inputPassword })
-            .then((data) => {
-                if (data.token) {
-                props.handleLogin(inputEmail);
-                localStorage.setItem('jwt', data.token);
-                resetForm();
-                }
-            })
-            .catch((err) => console.log(err));
+        props.handleLogin(inputEmail);
+        resetForm();
     }
 
     return (

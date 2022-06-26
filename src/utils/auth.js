@@ -1,10 +1,15 @@
 export const BASE_URL = 'https://register.nomoreparties.co';
 
-function checkResponse(res) {
-    if (res.ok) {
-        return res.json();
+function checkResponse(response) {
+    if (!response.ok) {
+      return Promise.reject(
+        "Something went wrong",
+        response.status,
+        response.statusText
+      );
     }
-}
+    return response.json();
+  }
 
 export const register = (email, password) => {
     return fetch(`${BASE_URL}/signup`, {
