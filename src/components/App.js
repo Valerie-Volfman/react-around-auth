@@ -38,27 +38,27 @@ function App() {
       checkToken(token)
         .then(res => {
           setLoggedIn(true);
-          setCurrentUser(res.data.email);
+          setCurrentUser({email:res.data.email, ...currentUser});
           history.push('/');
         })
         .catch(err => console.log(err));
-  }, [history]);
+  }, [history, currentUser.email]);
   React.useEffect(() => {
     api
       .getUserData()
       .then((res) => {
-        setCurrentUser(res);
+        setCurrentUser({name:res.name, about:res.about, avatar: res.avatar, ...currentUser});
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [currentUser.name, currentUser.about, currentUser.avatar]);
 
   function handleUserUpdate(data) {
     api
       .editUserData(data)
       .then((res) => {
-        setCurrentUser(res);
+        setCurrentUser({...res});
         closeAllPopups();
       })
       .catch((err) => {
@@ -70,7 +70,7 @@ function App() {
     api
       .editProfilePic(data)
       .then((res) => {
-        setCurrentUser(res);
+        setCurrentUser(res._baseUrl);
         closeAllPopups();
       })
       .catch((err) => {
@@ -166,22 +166,17 @@ function App() {
     setIsRemovePopupOpen(false);
   }
 
-  // function handleLogin(data) {
-  //   setLoggedIn(true);
-  //   setCurrentUser(data);
-  //   history.push('/')
-  // }
-
   function handleLogin(inputEmail, inputPassword) {
-    authorize({ inputEmail, inputPassword }).then((res) => {
-      console.log(res)
-      if (res.status === 201) {
+    authorize({email: inputEmail, password: inputPassword }).then((res) => {
+      if (res.token) {
         setIsSucceed(true);
+        setLoggedIn(true)
         localStorage.setItem('jwt', res.token);
-        setCurrentUser({email: inputEmail, password: inputPassword});
+        setCurrentUser({email:inputEmail, ...currentUser});
         history.push('/')
       } else {
         setIsSucceed(false);
+        setLoggedIn(false)
       }
     })
     .catch((err) => console.log(err))

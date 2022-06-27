@@ -13,7 +13,7 @@ function Login(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        props.handleLogin(inputEmail);
+        props.handleLogin(inputEmail, inputPassword);
         resetForm();
     }
 
