@@ -38,21 +38,21 @@ function App() {
       checkToken(token)
         .then(res => {
           setLoggedIn(true);
-          setCurrentUser({email:res.data.email, ...currentUser});
+          setCurrentUser(prevState => ({ ...prevState, email: res.data.email }));
           history.push('/');
         })
         .catch(err => console.log(err));
-  }, [history, currentUser.email]);
+  }, [history]);
   React.useEffect(() => {
     api
       .getUserData()
       .then((res) => {
-        setCurrentUser({name:res.name, about:res.about, avatar: res.avatar, ...currentUser});
+        setCurrentUser(prevState => ({ ...prevState, name: res.name, about: res.about, avatar: res.avatar }));
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [currentUser.name, currentUser.about, currentUser.avatar]);
+  }, []);
 
   function handleUserUpdate(data) {
     api
