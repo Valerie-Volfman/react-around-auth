@@ -4,21 +4,27 @@ class Api extends React.Component {
   constructor(props) {
     super(props);
     this._baseUrl = props.baseUrl;
-    this._headers = props.headers;
   }
 
   async getUserData() {
     const response = await fetch(`${this._baseUrl}/users/me`, {
-      headers: this._headers,
+      headers: this._generateHeaders(),
     });
 
     return this._getResponseData(response);
   }
-
+  _generateHeaders() {
+    const token = localStorage.getItem('jwt');
+    return {
+      authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    }
+  }
   async editUserData({ name, about }) {
+    console.log({name, about});
     const response = await fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: this._generateHeaders(),
       "Content-Type": "application/json",
       body: JSON.stringify({
         name: name,
@@ -31,7 +37,7 @@ class Api extends React.Component {
 
   async getInitialCards() {
     const response = await fetch(`${this._baseUrl}/cards`, {
-      headers: this._headers,
+      headers: this._generateHeaders(),
     });
 
     return this._getResponseData(response);
@@ -40,7 +46,7 @@ class Api extends React.Component {
   async addCard({ name, link }) {
     const response = await fetch(`${this._baseUrl}/cards`, {
       method: "POST",
-      headers: this._headers,
+      headers: this._generateHeaders(),
       "Content-Type": "application/json",
       body: JSON.stringify({
         name: name,
@@ -56,7 +62,7 @@ class Api extends React.Component {
       `${this._baseUrl}/cards/likes/${userData._id}`,
       {
         method: "PUT",
-        headers: this._headers,
+        headers: this._generateHeaders(),
       }
     );
 
@@ -68,7 +74,7 @@ class Api extends React.Component {
       `${this._baseUrl}/cards/likes/${userData._id}`,
       {
         method: "DELETE",
-        headers: this._headers,
+        headers: this._generateHeaders(),
       }
     );
 
@@ -82,7 +88,7 @@ class Api extends React.Component {
   async removeCard(card) {
     const response = await fetch(`${this._baseUrl}/cards/${card._id}`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: this._generateHeaders(),
     });
 
     return this._getResponseData(response);
@@ -91,7 +97,7 @@ class Api extends React.Component {
   async editProfilePic({ avatar }) {
     const response = await fetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: this._generateHeaders(),
       "Content-Type": "application/json",
       body: JSON.stringify({
         avatar: `${avatar}`,
@@ -114,11 +120,7 @@ class Api extends React.Component {
 }
 
 const api = new Api({
-  baseUrl: "https://around.nomoreparties.co/v1/group-12",
-  headers: {
-    authorization: "2911a1a5-67c1-4d46-aa09-949272fd93e2",
-    "Content-Type": "application/json",
-  },
+  baseUrl: "http://localhost:3001"
 });
 
 export default api;

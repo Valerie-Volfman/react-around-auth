@@ -38,27 +38,31 @@ function App() {
       checkToken(token)
         .then(res => {
           setLoggedIn(true);
-          setCurrentUser(prevState => ({ ...prevState, email: res.data.email }));
+          setCurrentUser(prevState => ({ ...prevState, email: res.email }));
           history.push('/');
         })
         .catch(err => console.log(err));
   }, [history]);
   React.useEffect(() => {
+    loggedIn &&
     api
       .getUserData()
       .then((res) => {
-        setCurrentUser(prevState => ({ ...prevState, name: res.name, about: res.about, avatar: res.avatar }));
+        console.log(currentUser);
+        setCurrentUser(currentUser => ({ ...currentUser, name: res.name, about: res.about, avatar: res.avatar }));
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [loggedIn]);
 
   function handleUserUpdate(data) {
+    console.log(data)
     api
       .editUserData(data)
       .then((res) => {
-        setCurrentUser({...res});
+        console.log('gde ti?????', res.data);
+        setCurrentUser((currentUser) => ({...currentUser, ...data, res}));
         closeAllPopups();
       })
       .catch((err) => {
@@ -108,6 +112,7 @@ function App() {
   }
 
   React.useEffect(() => {
+    loggedIn &&
     api
       .getInitialCards()
       .then((res) => {
@@ -116,7 +121,7 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [loggedIn]);
 
   function handleAppPlaceSubmit(data) {
     api
@@ -168,6 +173,7 @@ function App() {
 
   function handleLogin(inputEmail, inputPassword) {
     authorize({email: inputEmail, password: inputPassword }).then((res) => {
+      console.log('response', res);
       if (res.token) {
         setIsSucceed(true);
         setLoggedIn(true)
