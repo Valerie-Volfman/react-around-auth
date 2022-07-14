@@ -21,7 +21,6 @@ class Api extends React.Component {
     }
   }
   async editUserData({ name, about }) {
-    console.log({name, about});
     const response = await fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
       headers: this._generateHeaders(),
@@ -59,7 +58,7 @@ class Api extends React.Component {
 
   async addLikes(userData) {
     const response = await fetch(
-      `${this._baseUrl}/cards/likes/${userData._id}`,
+      `${this._baseUrl}/cards/${userData._id}/likes`,
       {
         method: "PUT",
         headers: this._generateHeaders(),
@@ -71,7 +70,7 @@ class Api extends React.Component {
 
   async removeLikes(userData) {
     const response = await fetch(
-      `${this._baseUrl}/cards/likes/${userData._id}`,
+      `${this._baseUrl}/cards/${userData._id}/likes`,
       {
         method: "DELETE",
         headers: this._generateHeaders(),
